@@ -14,6 +14,8 @@ public class RetrifitClient {
 
     private static RetrifitClient mInstance;
     private Context mContext;
+    private boolean isJson = false;
+    private String mBaseUrl;
 
     private RetrifitClient() {
 
@@ -31,13 +33,26 @@ public class RetrifitClient {
         return mInstance;
     }
 
-    public void init(Context context) {
+    public RetrifitClient init(Context context) {
         this.mContext = context.getApplicationContext();
+        return this;
     }
+
+    public RetrifitClient baseUrl(String url) {
+        this.mBaseUrl = url;
+        return this;
+    }
+
+    public RetrifitClient parameterType(boolean isJson) {
+
+        this.isJson = isJson;
+        return this;
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public ApiService initApiService() {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(" http://117.51.149.167:9000/")
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(mBaseUrl)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(getOkHttpClient())
                 .build();
@@ -47,13 +62,23 @@ public class RetrifitClient {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private OkHttpClient getOkHttpClient() {
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .readTimeout(10000L, TimeUnit.SECONDS)
-                .writeTimeout(10000L, TimeUnit.SECONDS)
-                .addInterceptor(new RequestToJsonInterceptor(mContext))
-                .addInterceptor(new CacheRequestInterceptor(mContext))
-                .addNetworkInterceptor(new CacheResponseInterceptor())
-                .build();
+        OkHttpClient okHttpClient;
+        if (isJson) {
+            okHttpClient = new OkHttpClient.Builder()
+                    .readTimeout(10000L, TimeUnit.SECONDS)
+                    .writeTimeout(10000L, TimeUnit.SECONDS)
+                    .addInterceptor(new RequestToJsonInterceptor(mContext))
+                    .addInterceptor(new CacheRequestInterceptor(mContext))
+                    .addNetworkInterceptor(new CacheResponseInterceptor())
+                    .build();
+        } else {
+            okHttpClient = new OkHttpClient.Builder()
+                    .readTimeout(10000L, TimeUnit.SECONDS)
+                    .writeTimeout(10000L, TimeUnit.SECONDS)
+                    .addInterceptor(new CacheRequestInterceptor(mContext))
+                    .addNetworkInterceptor(new CacheResponseInterceptor())
+                    .build();
+        }
         return okHttpClient;
     }
 }

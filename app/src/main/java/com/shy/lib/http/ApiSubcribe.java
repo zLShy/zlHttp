@@ -34,7 +34,7 @@ public class ApiSubcribe {
         return mInstance;
     }
 
-    public void Subcribe(Observer<Response<ResponseBody>> mObserver, Observable<Response<ResponseBody>> mObserverable) {
+    private void Subcribe(Observer<Response<ResponseBody>> mObserver, Observable<Response<ResponseBody>> mObserverable) {
 
         mObserverable.subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
