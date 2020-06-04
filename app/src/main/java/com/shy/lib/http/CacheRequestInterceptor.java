@@ -1,6 +1,9 @@
 package com.shy.lib.http;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.text.TextUtils;
+import android.util.Log;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -27,6 +30,17 @@ public class CacheRequestInterceptor implements Interceptor {
         if (!LocalNetWorkUtils.isNetConnected(mContext)) {
             request = new Request.Builder()
                     .cacheControl(CacheControl.FORCE_CACHE)
+                    .build();
+        }
+        SharedPreferences preferences = mContext.getSharedPreferences("share_data",Context.MODE_PRIVATE);
+        Log.e("TAG","TOKEN"+preferences.getString("token",null));
+        String token = preferences.getString("token",null);
+        if (TextUtils.isEmpty(token)) {
+            request = request.newBuilder()
+                    .build();
+        }else {
+            request = request.newBuilder()
+                    .addHeader("token",preferences.getString("token",null))
                     .build();
         }
         return chain.proceed(request);

@@ -58,17 +58,7 @@ public class RequestToJsonInterceptor implements Interceptor {
                     .build();
 //            return chain.proceed(request);
         }
-        SharedPreferences preferences = mContext.getSharedPreferences("cdll",Context.MODE_PRIVATE);
-        Log.e("TAG","TOKEN"+preferences.getString("token",null));
-        String token = preferences.getString("token",null);
-        if (TextUtils.isEmpty(token)) {
-            request = request.newBuilder()
-                    .build();
-        }else {
-            request = request.newBuilder()
-                    .addHeader("token",preferences.getString("token",null))
-                    .build();
-        }
+
 
         return chain.proceed(request);
     }
