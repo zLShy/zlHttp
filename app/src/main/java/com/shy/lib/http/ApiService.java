@@ -23,7 +23,6 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("")
-    @Headers("Content-Type:application/x-www-form-urlencoded; charset=utf-8")
     Observable<Response<ResponseBody>> PostMethod(@Url String url, @FieldMap Map<String, Object> params);
 
     @POST("")
