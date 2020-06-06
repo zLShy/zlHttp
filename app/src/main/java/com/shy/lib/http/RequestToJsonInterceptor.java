@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +42,7 @@ public class RequestToJsonInterceptor implements Interceptor {
 
         if (request.body() instanceof FormBody) {
             // 构造新的请求表单
-            FormBody.Builder builder = new FormBody.Builder();
+            FormBody.Builder builder = new FormBody.Builder(Charset.forName("UTF-8"));
 
             FormBody body = (FormBody) request.body();
             //将以前的参数添加
