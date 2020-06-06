@@ -48,6 +48,7 @@ public class RequestToJsonInterceptor implements Interceptor {
             for (int i = 0; i < body.size(); i++) {
                 builder.add(body.encodedName(i), body.encodedValue(i));
                 params.put(body.encodedName(i), body.encodedValue(i));
+                Log.e("TAG","params-->"+body.encodedValue(i));
             }
             Gson gson = new Gson();
             String JSON = gson.toJson(params);
