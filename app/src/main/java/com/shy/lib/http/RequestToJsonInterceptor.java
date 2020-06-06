@@ -49,7 +49,7 @@ public class RequestToJsonInterceptor implements Interceptor {
             //将以前的参数添加
             for (int i = 0; i < body.size(); i++) {
                 builder.add(body.encodedName(i), body.encodedValue(i));
-                params.put(URLDecoder.decode(body.encodedName(i),"UTF-8"), URLDecoder.decode(body.encodedValue(i),"UTF-8"));
+                params.put(URLDecoder.decode(body.encodedName(i),"UTF-8"),URLDecoder.decode(body.encodedValue(i),"UTF-8"));
                 Log.e("TAG","params-->"+ body.encodedName(i)+":"+URLDecoder.decode(body.encodedValue(i),"UTF-8"));
             }
             Gson gson = new Gson();

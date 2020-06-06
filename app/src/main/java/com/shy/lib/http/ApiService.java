@@ -21,8 +21,8 @@ public interface ApiService {
     @GET("")
     Observable<Response<ResponseBody>> GetMethod(@Url String url, @QueryMap Map<String, Object> map);
 
-    @FormUrlEncoded
     @POST("")
+    @Headers("application/json;charset=utf-8")
     Observable<Response<ResponseBody>> PostMethod(@Url String url, @FieldMap Map<String, Object> params);
 
     @POST("")
