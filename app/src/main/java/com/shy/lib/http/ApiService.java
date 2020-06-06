@@ -9,6 +9,7 @@ import retrofit2.Response;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PartMap;
@@ -20,8 +21,9 @@ public interface ApiService {
     @GET("")
     Observable<Response<ResponseBody>> GetMethod(@Url String url, @QueryMap Map<String, Object> map);
 
-    @POST("")
     @FormUrlEncoded
+    @POST("")
+    @Headers("Content-Type:application/x-www-form-urlencoded; charset=utf-8")
     Observable<Response<ResponseBody>> PostMethod(@Url String url, @FieldMap Map<String, Object> params);
 
     @POST("")
