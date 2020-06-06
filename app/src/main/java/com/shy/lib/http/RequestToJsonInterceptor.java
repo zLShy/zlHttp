@@ -51,6 +51,7 @@ public class RequestToJsonInterceptor implements Interceptor {
             }
             Gson gson = new Gson();
             String JSON = gson.toJson(params);
+            Log.e("TAG","--->"+JSON);
             RequestBody newRequestBody = RequestBody.create(JSON,MediaType.parse("application/json; charset=utf-8"));
 
             request = request.newBuilder()
