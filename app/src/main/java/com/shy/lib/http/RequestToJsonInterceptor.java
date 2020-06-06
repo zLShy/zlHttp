@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,12 +50,12 @@ public class RequestToJsonInterceptor implements Interceptor {
             for (int i = 0; i < body.size(); i++) {
                 builder.add(body.encodedName(i), body.encodedValue(i));
                 params.put(body.encodedName(i), body.encodedValue(i));
-                Log.e("TAG","params-->"+body.encodedValue(i));
+                Log.e("TAG","params-->"+ URLDecoder.decode(body.encodedValue(i),"UTF-8"));
             }
             Gson gson = new Gson();
             String JSON = gson.toJson(params);
             Log.e("TAG","--->"+JSON);
-            RequestBody newRequestBody = RequestBody.create(JSON,MediaType.parse("application/json; charset=utf-8"));
+            RequestBody newRequestBody = RequestBody.create(JSON,MediaType.parse("application/json;charset=utf-8"));
 
             request = request.newBuilder()
                     .post(newRequestBody)
