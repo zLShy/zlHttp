@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -53,6 +54,14 @@ public class RequestToJsonInterceptor implements Interceptor {
             for (int i = 0; i < body.size(); i++) {
                 builder.add(body.encodedName(i), body.encodedValue(i));
                 try {
+                    if (URLDecoder.decode(body.encodedName(i),"UTF-8").equals("smsCodeInfo")) {
+                        JSONObject smsCodeJson = new JSONObject();
+                        JSONObject sourceJson = new JSONObject(URLDecoder.decode(body.encodedValue(i),"UTF-8"));
+                        smsCodeJson.put("code",sourceJson.getString("code"));
+                        smsCodeJson.put("phone",sourceJson.getString("phone"));
+                        smsCodeJson.put("modular",sourceJson.getInt("modular"));
+                        jsonObject.put("smsCodeInfo",smsCodeJson);
+                    }
                     jsonObject.put(URLDecoder.decode(body.encodedName(i),"UTF-8"),URLDecoder.decode(body.encodedValue(i),"UTF-8"));
                 } catch (Exception e) {
                     e.printStackTrace();
