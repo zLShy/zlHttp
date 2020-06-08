@@ -1,15 +1,10 @@
 package com.shy.lib.http;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.text.TextUtils;
+
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -60,6 +55,7 @@ public class RequestToJsonInterceptor implements Interceptor {
                         smsCodeJson.put("code",sourceJson.getString("code"));
                         smsCodeJson.put("phone",sourceJson.getString("phone"));
                         smsCodeJson.put("modular",sourceJson.getInt("modular"));
+                        Log.e("TAG",sourceJson.getString("code")+"="+sourceJson.getInt("modular"));
                         jsonObject.put("smsCodeInfo",smsCodeJson);
                     }
                     jsonObject.put(URLDecoder.decode(body.encodedName(i),"UTF-8"),URLDecoder.decode(body.encodedValue(i),"UTF-8"));
