@@ -48,31 +48,36 @@ public class RequestToJsonInterceptor implements Interceptor {
             FormBody body = (FormBody) request.body();
             //将以前的参数添加
             JSONObject jsonObject = new JSONObject();
-//            JSONObject jsonObject = new JSONObject();
-//            try {
-//                jsonObject.put("name","123");
-//                jsonObject.put("zl","---");
-//                JSONObject jsonObject1 = new JSONObject();
-//                jsonObject1.put("code","123");
-//                jsonObject1.put("type",2);
-//                jsonObject.put("obj",jsonObject1);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
             for (int i = 0; i < body.size(); i++) {
                 builder.add(body.encodedName(i), body.encodedValue(i));
+                String[] spliteKey = body.encodedName(i).split("_");
                 try {
-                    if (URLDecoder.decode(body.encodedName(i),"UTF-8").equals("smsCodeInfo")) {
-                        JSONObject smsCodeJson = new JSONObject();
-                        JSONObject sourceJson = new JSONObject(URLDecoder.decode(body.encodedValue(i),"UTF-8"));
-                        smsCodeJson.put("code",sourceJson.getString("code"));
-                        smsCodeJson.put("phone",sourceJson.getString("phone"));
-                        smsCodeJson.put("modular",sourceJson.getInt("modular"));
-                        Log.e("TAG",sourceJson.getString("code")+"="+sourceJson.getInt("modular"));
-                        jsonObject.put("smsCodeInfo",smsCodeJson);
-                    }else {
-                        jsonObject.put(URLDecoder.decode(body.encodedName(i),"UTF-8"),URLDecoder.decode(body.encodedValue(i),"UTF-8"));
+                    if (spliteKey[1].equals("Int")) {
+                        jsonObject.put(spliteKey[0],Integer.valueOf(URLDecoder.decode(body.encodedValue(i),"UTF-8")));
+                    }else if (spliteKey[1].equals("String")){
+                        jsonObject.put(spliteKey[0],String.valueOf(URLDecoder.decode(body.encodedValue(i),"UTF-8")));
+                    }else if (spliteKey[1].equals("Double")){
+                        jsonObject.put(spliteKey[0],Double.valueOf(URLDecoder.decode(body.encodedValue(i),"UTF-8")));
+                    }else if (spliteKey[1].equals("Float")){
+                        jsonObject.put(spliteKey[0],Float.valueOf(URLDecoder.decode(body.encodedValue(i),"UTF-8")));
+                    }else if (spliteKey[1].equals("Long")){
+                        jsonObject.put(spliteKey[0],Long.valueOf(URLDecoder.decode(body.encodedValue(i),"UTF-8")));
+                    }else if (spliteKey[1].equals("Boolean")){
+                        jsonObject.put(spliteKey[0],Boolean.valueOf(URLDecoder.decode(body.encodedValue(i),"UTF-8")));
+                    }else if (spliteKey[1].equals("Object")){
+                        jsonObject.put(spliteKey[0],URLDecoder.decode(body.encodedValue(i),"UTF-8"));
                     }
+//                    if (URLDecoder.decode(body.encodedName(i),"UTF-8").equals("smsCodeInfo")) {
+//                        JSONObject smsCodeJson = new JSONObject();
+//                        JSONObject sourceJson = new JSONObject(URLDecoder.decode(body.encodedValue(i),"UTF-8"));
+//                        smsCodeJson.put("code",sourceJson.getString("code"));
+//                        smsCodeJson.put("phone",sourceJson.getString("phone"));
+//                        smsCodeJson.put("modular",sourceJson.getInt("modular"));
+//                        Log.e("TAG",sourceJson.getString("code")+"="+sourceJson.getInt("modular"));
+//                        jsonObject.put("smsCodeInfo",smsCodeJson);
+//                    }else {
+//                        jsonObject.put(URLDecoder.decode(body.encodedName(i),"UTF-8"),URLDecoder.decode(body.encodedValue(i),"UTF-8"));
+//                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -21,6 +21,9 @@ public interface ApiService {
     @GET("")
     Observable<Response<ResponseBody>> GetMethod(@Url String url, @QueryMap Map<String, Object> map);
 
+    @GET("")
+    Observable<Response<ResponseBody>> GetMethod(@Url String url);
+
     @FormUrlEncoded
     @POST("")
     Observable<Response<ResponseBody>> PostMethod(@Url String url, @FieldMap Map<String, Object> params);

@@ -45,7 +45,7 @@ public class CacheRequestInterceptor implements Interceptor {
                     .addHeader("Content-Type","application/json;charset=utf-8")
                     .build();
         }
-        
+
         return chain.proceed(request);
     }
 }
