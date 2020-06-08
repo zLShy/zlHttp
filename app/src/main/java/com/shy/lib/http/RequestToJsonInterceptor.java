@@ -8,6 +8,8 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -49,6 +51,16 @@ public class RequestToJsonInterceptor implements Interceptor {
             //将以前的参数添加
             for (int i = 0; i < body.size(); i++) {
                 builder.add(body.encodedName(i), body.encodedValue(i));
+                if (URLDecoder.decode(body.encodedName(i),"UTF-8").equals("smsCodeInfo")) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(URLDecoder.decode(body.encodedValue(i),"UTF-8"));
+                        params.put(URLDecoder.decode(body.encodedName(i),"UTF-8"),jsonObject);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    params.put(URLDecoder.decode(body.encodedName(i),"UTF-8"),URLDecoder.decode(body.encodedValue(i),"UTF-8"));
+                }
                 params.put(URLDecoder.decode(body.encodedName(i),"UTF-8"),URLDecoder.decode(body.encodedValue(i),"UTF-8"));
                 Log.e("TAG","params-->"+ body.encodedName(i)+":"+URLDecoder.decode(body.encodedValue(i),"UTF-8"));
             }
