@@ -55,6 +55,7 @@ public class RequestToJsonInterceptor implements Interceptor {
                     if (spliteKey[1].equals("Int")) {
                         jsonObject.put(spliteKey[0],Integer.valueOf(URLDecoder.decode(body.encodedValue(i),"UTF-8")));
                     }else if (spliteKey[1].equals("String")){
+                        Log.e("TAG","params_String-->"+URLDecoder.decode(body.encodedValue(i),"UTF-8"));
                         jsonObject.put(spliteKey[0],String.valueOf(URLDecoder.decode(body.encodedValue(i),"UTF-8")));
                     }else if (spliteKey[1].equals("Double")){
                         jsonObject.put(spliteKey[0],Double.valueOf(URLDecoder.decode(body.encodedValue(i),"UTF-8")));
@@ -65,6 +66,7 @@ public class RequestToJsonInterceptor implements Interceptor {
                     }else if (spliteKey[1].equals("Boolean")){
                         jsonObject.put(spliteKey[0],Boolean.valueOf(URLDecoder.decode(body.encodedValue(i),"UTF-8")));
                     }else if (spliteKey[1].equals("Object")){
+                        Log.e("TAG","params_Object-->"+URLDecoder.decode(body.encodedValue(i),"UTF-8"));
                         jsonObject.put(spliteKey[0],URLDecoder.decode(body.encodedValue(i),"UTF-8"));
                     }
 //                    if (URLDecoder.decode(body.encodedName(i),"UTF-8").equals("smsCodeInfo")) {
