@@ -4,6 +4,8 @@ import android.content.Context;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
@@ -46,6 +48,17 @@ public class RequestToJsonInterceptor implements Interceptor {
             FormBody body = (FormBody) request.body();
             //将以前的参数添加
             JSONObject jsonObject = new JSONObject();
+//            JSONObject jsonObject = new JSONObject();
+//            try {
+//                jsonObject.put("name","123");
+//                jsonObject.put("zl","---");
+//                JSONObject jsonObject1 = new JSONObject();
+//                jsonObject1.put("code","123");
+//                jsonObject1.put("type",2);
+//                jsonObject.put("obj",jsonObject1);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
             for (int i = 0; i < body.size(); i++) {
                 builder.add(body.encodedName(i), body.encodedValue(i));
                 try {
@@ -56,24 +69,14 @@ public class RequestToJsonInterceptor implements Interceptor {
                         smsCodeJson.put("phone",sourceJson.getString("phone"));
                         smsCodeJson.put("modular",sourceJson.getInt("modular"));
                         Log.e("TAG",sourceJson.getString("code")+"="+sourceJson.getInt("modular"));
-                        jsonObject.putOpt("smsCodeInfo",smsCodeJson);
+                        jsonObject.put("smsCodeInfo",smsCodeJson);
+                    }else {
+                        jsonObject.put(URLDecoder.decode(body.encodedName(i),"UTF-8"),URLDecoder.decode(body.encodedValue(i),"UTF-8"));
                     }
-                    jsonObject.put(URLDecoder.decode(body.encodedName(i),"UTF-8"),URLDecoder.decode(body.encodedValue(i),"UTF-8"));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-//                if (URLDecoder.decode(body.encodedName(i),"UTF-8").equals("smsCodeInfo")) {
-//                    try {
-////                        JSONObject  = new JSONObject(URLDecoder.decode(body.encodedValue(i),"UTF-8"));
-////                        params.put(URLDecoder.decode(body.encodedName(i),"UTF-8"),jsonObject);
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }else {
-//                    jsonObject.put(URLDecoder.decode(body.encodedName(i),"UTF-8"),URLDecoder.decode(body.encodedValue(i),"UTF-8"));
-//                }
-//                params.put(URLDecoder.decode(body.encodedName(i),"UTF-8"),URLDecoder.decode(body.encodedValue(i),"UTF-8"));
-//                Log.e("TAG","params-->"+ body.encodedName(i)+":"+URLDecoder.decode(body.encodedValue(i),"UTF-8"));
+//
             }
             String JSON = jsonObject.toString();
             Log.e("TAG","--->"+JSON);
