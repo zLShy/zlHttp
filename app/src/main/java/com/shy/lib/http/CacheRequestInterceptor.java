@@ -42,7 +42,7 @@ public class CacheRequestInterceptor implements Interceptor {
         }else {
             request = request.newBuilder()
                     .addHeader("bearer",preferences.getString("token",null))
-                    .addHeader("Content-Type","application/json;charset=UTF-8")
+                    .addHeader("Content-Type","application/json")
                     .build();
         }
         return chain.proceed(request);
