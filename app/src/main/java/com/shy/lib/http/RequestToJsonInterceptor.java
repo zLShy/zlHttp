@@ -56,7 +56,7 @@ public class RequestToJsonInterceptor implements Interceptor {
                         smsCodeJson.put("phone",sourceJson.getString("phone"));
                         smsCodeJson.put("modular",sourceJson.getInt("modular"));
                         Log.e("TAG",sourceJson.getString("code")+"="+sourceJson.getInt("modular"));
-                        jsonObject.putOpt("smsCodeInfo",smsCodeJson)
+                        jsonObject.putOpt("smsCodeInfo",smsCodeJson);
                     }
                     jsonObject.put(URLDecoder.decode(body.encodedName(i),"UTF-8"),URLDecoder.decode(body.encodedValue(i),"UTF-8"));
                 } catch (Exception e) {
