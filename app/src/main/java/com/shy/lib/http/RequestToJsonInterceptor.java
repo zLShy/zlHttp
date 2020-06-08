@@ -1,10 +1,9 @@
 package com.shy.lib.http;
 
 import android.content.Context;
-
 import android.util.Log;
 
-import com.google.gson.Gson;
+import com.shy.lib.utils.AnalyticalJSON;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
@@ -39,7 +38,7 @@ public class RequestToJsonInterceptor implements Interceptor {
 
         Request request = chain.request();
 
-        Map<String,Object> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
 
         if (request.body() instanceof FormBody) {
             // 构造新的请求表单
@@ -53,18 +52,38 @@ public class RequestToJsonInterceptor implements Interceptor {
                 String[] spliteKey = body.encodedName(i).split("_");
                 try {
                     if (spliteKey[1].equals("Int")) {
-                        jsonObject.put(spliteKey[0],Integer.valueOf(URLDecoder.decode(body.encodedValue(i),"UTF-8")));
-                    }else if (spliteKey[1].equals("String")){
-                        jsonObject.put(spliteKey[0],String.valueOf(URLDecoder.decode(body.encodedValue(i),"UTF-8")));
-                    }else if (spliteKey[1].equals("Double")){
-                        jsonObject.put(spliteKey[0],Double.valueOf(URLDecoder.decode(body.encodedValue(i),"UTF-8")));
-                    }else if (spliteKey[1].equals("Float")){
-                        jsonObject.put(spliteKey[0],Float.valueOf(URLDecoder.decode(body.encodedValue(i),"UTF-8")));
-                    }else if (spliteKey[1].equals("Long")){
-                        jsonObject.put(spliteKey[0],Long.valueOf(URLDecoder.decode(body.encodedValue(i),"UTF-8")));
-                    }else if (spliteKey[1].equals("Boolean")){
-                        jsonObject.put(spliteKey[0],Boolean.valueOf(URLDecoder.decode(body.encodedValue(i),"UTF-8")));
-                    }else if (spliteKey[1].equals("Object")){
+                        jsonObject.put(spliteKey[0], Integer.valueOf(URLDecoder.decode(body.encodedValue(i), "UTF-8")));
+                    } else if (spliteKey[1].equals("String")) {
+                        jsonObject.put(spliteKey[0], String.valueOf(URLDecoder.decode(body.encodedValue(i), "UTF-8")));
+                    } else if (spliteKey[1].equals("Double")) {
+                        jsonObject.put(spliteKey[0], Double.valueOf(URLDecoder.decode(body.encodedValue(i), "UTF-8")));
+                    } else if (spliteKey[1].equals("Float")) {
+                        jsonObject.put(spliteKey[0], Float.valueOf(URLDecoder.decode(body.encodedValue(i), "UTF-8")));
+                    } else if (spliteKey[1].equals("Long")) {
+                        jsonObject.put(spliteKey[0], Long.valueOf(URLDecoder.decode(body.encodedValue(i), "UTF-8")));
+                    } else if (spliteKey[1].equals("Boolean")) {
+                        jsonObject.put(spliteKey[0], Boolean.valueOf(URLDecoder.decode(body.encodedValue(i), "UTF-8")));
+                    } else if (spliteKey[1].equals("Object")) {
+                        HashMap<String, Object> maps = AnalyticalJSON.getObjHashMap(URLDecoder.decode(body.encodedValue(i), "UTF-8"));
+                        JSONObject objCodeJson = new JSONObject();
+                        for (Map.Entry<String, Object> entry : maps.entrySet()) {
+                            String mapKey = entry.getKey();
+                            Object mapValue = entry.getValue();
+                            if (mapValue.equals("Int")) {
+                                objCodeJson.put(mapKey, Integer.valueOf(mapValue.toString()));
+                            } else if (mapValue.equals("String")) {
+                                objCodeJson.put(mapKey, mapValue.toString());
+                            } else if (mapValue.equals("Double")) {
+                                objCodeJson.put(mapKey, Double.valueOf(mapValue.toString()));
+                            } else if (mapValue.equals("Float")) {
+                                objCodeJson.put(mapKey, Float.valueOf(mapValue.toString()));
+                            } else if (mapValue.equals("Long")) {
+                                objCodeJson.put(mapKey, Long.valueOf(mapValue.toString()));
+                            } else if (mapValue.equals("Boolean")) {
+                                objCodeJson.put(mapKey, Boolean.valueOf(mapValue.toString()));
+                            }
+                        }
+                        jsonObject.put(spliteKey[0],objCodeJson);
 //                        if (spliteKey[0].equals("smsCodeInfo")){
 //                            JSONObject smsCodeJson = new JSONObject();
 //                            JSONObject sourceJson = new JSONObject(URLDecoder.decode(body.encodedValue(i), "UTF-8"));
@@ -73,7 +92,7 @@ public class RequestToJsonInterceptor implements Interceptor {
 //                            smsCodeJson.put("modular", sourceJson.getInt("modular"));
 //                            jsonObject.put("smsCodeInfo", smsCodeJson);
 //                        }else {
-                            jsonObject.put(spliteKey[0],URLDecoder.decode(body.encodedValue(i),"UTF-8"));
+//                            jsonObject.put(spliteKey[0],URLDecoder.decode(body.encodedValue(i),"UTF-8"));
 //                        }
                     }
 //                    if (URLDecoder.decode(body.encodedName(i),"UTF-8").equals("smsCodeInfo")) {
@@ -93,8 +112,8 @@ public class RequestToJsonInterceptor implements Interceptor {
 //
             }
             String JSON = jsonObject.toString();
-            Log.e("TAG","--->"+JSON);
-            RequestBody newRequestBody = RequestBody.create(JSON,MediaType.parse("application/json;charset=utf-8"));
+            Log.e("TAG", "--->" + JSON);
+            RequestBody newRequestBody = RequestBody.create(JSON, MediaType.parse("application/json;charset=utf-8"));
 
             request = request.newBuilder()
                     .post(newRequestBody)
