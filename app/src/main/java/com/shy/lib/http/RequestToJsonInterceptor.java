@@ -119,6 +119,7 @@ public class RequestToJsonInterceptor implements Interceptor {
             request = request.newBuilder()
                     .post(newRequestBody)
                     .build();
+            Log.e("TAG", "url-->" + request.url());
 //            return chain.proceed(request);
         }
 
