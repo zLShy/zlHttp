@@ -69,22 +69,22 @@ public class RequestToJsonInterceptor implements Interceptor {
                         for (Map.Entry<String, Object> entry : maps.entrySet()) {
                             String mapKey = entry.getKey();
                             Object mapValue = entry.getValue();
-                            Log.e("TAG",mapKey+"==="+mapValue.toString());
-                            if (mapValue.equals("Int")) {
+                            Log.e("TAG", mapKey + "===" + mapValue.toString());
+                            if (mapValue instanceof Integer) {
                                 objCodeJson.put(mapKey, Integer.valueOf(mapValue.toString()));
-                            } else if (mapValue.equals("String")) {
+                            } else if (mapValue instanceof String) {
                                 objCodeJson.put(mapKey, mapValue.toString());
-                            } else if (mapValue.equals("Double")) {
+                            } else if (mapValue instanceof Double) {
                                 objCodeJson.put(mapKey, Double.valueOf(mapValue.toString()));
-                            } else if (mapValue.equals("Float")) {
+                            } else if (mapValue instanceof Float) {
                                 objCodeJson.put(mapKey, Float.valueOf(mapValue.toString()));
-                            } else if (mapValue.equals("Long")) {
+                            } else if (mapValue instanceof Long) {
                                 objCodeJson.put(mapKey, Long.valueOf(mapValue.toString()));
-                            } else if (mapValue.equals("Boolean")) {
+                            } else if (mapValue instanceof Boolean) {
                                 objCodeJson.put(mapKey, Boolean.valueOf(mapValue.toString()));
                             }
                         }
-                        jsonObject.put(spliteKey[0],objCodeJson);
+                        jsonObject.put(spliteKey[0], objCodeJson);
 //                        if (spliteKey[0].equals("smsCodeInfo")){
 //                            JSONObject smsCodeJson = new JSONObject();
 //                            JSONObject sourceJson = new JSONObject(URLDecoder.decode(body.encodedValue(i), "UTF-8"));
