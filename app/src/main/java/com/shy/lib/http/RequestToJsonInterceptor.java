@@ -69,6 +69,7 @@ public class RequestToJsonInterceptor implements Interceptor {
                         for (Map.Entry<String, Object> entry : maps.entrySet()) {
                             String mapKey = entry.getKey();
                             Object mapValue = entry.getValue();
+                            Log.e("TAG",mapKey+"==="+mapValue.toString());
                             if (mapValue.equals("Int")) {
                                 objCodeJson.put(mapKey, Integer.valueOf(mapValue.toString()));
                             } else if (mapValue.equals("String")) {
