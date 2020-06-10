@@ -43,7 +43,7 @@ public abstract class RecyclerCommonAdapter<DATA> extends RecyclerView.Adapter<V
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mItemOnClick.onItemClick(position);
+                    mItemOnClick.onItemClick(position,mDatas.get(position));
                 }
             });
         }
