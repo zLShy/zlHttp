@@ -20,30 +20,47 @@ public abstract class RecyclerCommonAdapter<DATA> extends RecyclerView.Adapter<V
     private LayoutInflater mInflater;
     private int mLayoutId;
     private ItemOnClick mItemOnClick;
+    private MultipleTypeSupport mTypeSupport;
 
-    public RecyclerCommonAdapter(List<DATA> mDatas, Context mContext,int mLayoutId) {
+    public RecyclerCommonAdapter(List<DATA> mDatas, Context mContext, int mLayoutId) {
         this.mDatas = mDatas;
         this.mContext = mContext.getApplicationContext();
         this.mInflater = LayoutInflater.from(mContext);
         this.mLayoutId = mLayoutId;
     }
 
+    public RecyclerCommonAdapter(List<DATA> mDatas, Context mContext, MultipleTypeSupport multipleTypeSupport) {
+        this(mDatas, mContext, -1);
+        this.mTypeSupport = multipleTypeSupport;
+    }
+
     @Override
 
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = mInflater.inflate(mLayoutId,parent,false);
+        if (mTypeSupport != null) {
+            mLayoutId = viewType;
+        }
+        View itemView = mInflater.inflate(mLayoutId, parent, false);
         return new ViewHolder(itemView);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (mTypeSupport != null) {
+            return mTypeSupport.getLayoutId(mDatas.get(position));
+        }
+        return super.getItemViewType(position);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
-        covert(holder,mDatas.get(position),position);
+        covert(holder, mDatas.get(position), position);
         if (mItemOnClick != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mItemOnClick.onItemClick(position,mDatas.get(position));
+                    mItemOnClick.onItemClick(position, mDatas.get(position));
                 }
             });
         }

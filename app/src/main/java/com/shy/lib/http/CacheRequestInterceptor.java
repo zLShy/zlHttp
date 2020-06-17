@@ -32,15 +32,15 @@ public class CacheRequestInterceptor implements Interceptor {
                     .cacheControl(CacheControl.FORCE_CACHE)
                     .build();
         }
-        SharedPreferences preferences = mContext.getSharedPreferences("share_data",Context.MODE_PRIVATE);
-        Log.e("TAG","TOKEN"+preferences.getString("token",null));
-        String token = preferences.getString("token",null);
+        SharedPreferences preferences = mContext.getSharedPreferences("share_data", Context.MODE_PRIVATE);
+        Log.e("TAG", "TOKEN" + preferences.getString("token", null));
+        String token = preferences.getString("token", null);
         if (TextUtils.isEmpty(token)) {
             request = request.newBuilder()
                     .build();
-        }else {
+        } else {
             request = request.newBuilder()
-                    .addHeader("Authorization","Bearer "+preferences.getString("token",null))
+                    .addHeader("Authorization", "Bearer " + preferences.getString("token", null))
                     .build();
         }
 
