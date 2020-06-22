@@ -1,5 +1,7 @@
 package com.shy.lib.http;
 
+import android.util.Log;
+
 import org.json.JSONObject;
 
 import io.reactivex.Observer;
@@ -21,6 +23,7 @@ public abstract class RealObserver implements Observer<Response<ResponseBody>> {
         int code = value.code();
         if (code == 200) {
             try {
+                Log.e("TAG", value.body().string());
                 JSONObject jsonObject = new JSONObject(value.body().string());
                 boolean success = jsonObject.getBoolean("success");
                 if (success) {
