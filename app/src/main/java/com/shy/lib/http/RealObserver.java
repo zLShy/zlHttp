@@ -1,4 +1,4 @@
-package com.shy.lib.http.retrifit;
+package com.shy.lib.http;
 
 import android.util.Log;
 

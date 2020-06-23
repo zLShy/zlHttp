@@ -1,7 +1,9 @@
-package com.shy.lib.http.retrifit;
+package com.shy.lib.http;
 
 
 import android.os.Build;
+
+import com.shy.lib.http.retrifit.RetrifitClient;
 
 import java.util.HashMap;
 import java.util.Map;
