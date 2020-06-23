@@ -1,8 +1,7 @@
-package com.shy.lib.http;
+package com.shy.lib.http.retrifit;
 
 
 import android.os.Build;
-import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;

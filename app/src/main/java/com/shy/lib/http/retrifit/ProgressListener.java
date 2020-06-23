@@ -1,4 +1,4 @@
-package com.shy.lib.http;
+package com.shy.lib.http.retrifit;
 
 /**
  * Created by ZhangL on 2020-04-02.

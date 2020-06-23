@@ -1,7 +1,11 @@
-package com.shy.lib.http;
+package com.shy.lib.http.retrifit;
 
 import android.content.Context;
 import android.os.Build;
+
+import com.shy.lib.http.CacheRequestInterceptor;
+import com.shy.lib.http.CacheResponseInterceptor;
+import com.shy.lib.http.RequestToJsonInterceptor;
 
 import java.util.concurrent.TimeUnit;
 

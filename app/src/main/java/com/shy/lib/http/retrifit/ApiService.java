@@ -1,4 +1,4 @@
-package com.shy.lib.http;
+package com.shy.lib.http.retrifit;
 
 import java.util.Map;
 

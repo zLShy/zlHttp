@@ -1,4 +1,4 @@
-package com.shy.lib.http;
+package com.shy.lib.http.retrifit;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

@@ -1,4 +1,4 @@
-package com.shy.lib.http;
+package com.shy.lib.http.retrifit;
 
 import android.util.Log;
 
@@ -28,11 +28,7 @@ public abstract class RealObserver implements Observer<Response<ResponseBody>> {
         int code = value.code();
         if (code == 200) {
             try {
-                BufferedSource source = value.body().source();
-                source.request(Long.MAX_VALUE); // Buffer the entire body.
-                Buffer buffer = source.buffer();
-                Charset UTF8 = Charset.forName("UTF-8");
-                Log.d("REQUEST_JSON", buffer.clone().readString(UTF8));
+
                 JSONObject jsonObject = new JSONObject(value.body().string());
                 boolean success = jsonObject.getBoolean("success");
                 if (success) {

@@ -1,4 +1,4 @@
-package com.shy.lib.http;
+package com.shy.lib.http.retrifit;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

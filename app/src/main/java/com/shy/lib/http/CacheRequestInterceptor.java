@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.shy.lib.http.retrifit.LocalNetWorkUtils;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
