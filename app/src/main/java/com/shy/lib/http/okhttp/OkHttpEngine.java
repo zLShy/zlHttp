@@ -1,6 +1,7 @@
 package com.shy.lib.http.okhttp;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -35,14 +36,16 @@ public class OkHttpEngine implements IHttpEngine {
 
     @Override
     public void get(Context context, String url, Map<String, Object> params, final EngineCallback callback) {
-
+        SharedPreferences preferences = context.getApplicationContext().getSharedPreferences("share_data", Context.MODE_PRIVATE);
         url = HttpUtils.jointParams(url, params);
 
 
-        Request.Builder requestBuilder = new Request.Builder().url(url).tag(context);
+        Request.Builder requestBuilder = new Request.Builder()
+                .addHeader("Authorization", "Bearer " + preferences.getString("token", null))
+                .url(url)
+                .tag(context);
         //可以省略，默认是GET请求
         Request request = requestBuilder.build();
-
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
@@ -70,10 +73,11 @@ public class OkHttpEngine implements IHttpEngine {
 
     @Override
     public void post(Context context, String url, Map<String, Object> params, final EngineCallback callback) {
-
+        SharedPreferences preferences = context.getApplicationContext().getSharedPreferences("share_data", Context.MODE_PRIVATE);
         // 了解 Okhhtp
         RequestBody requestBody = appendBody(params);
         Request request = new Request.Builder()
+                .addHeader("Authorization", "Bearer " + preferences.getString("token", null))
                 .url(url)
                 .tag(context)
                 .post(requestBody)
