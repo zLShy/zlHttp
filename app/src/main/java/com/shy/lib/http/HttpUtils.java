@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.shy.lib.http.okhttp.OkHttpEngine;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -129,5 +131,14 @@ public class HttpUtils {
         if(mType == GET_TYPE){
             get(mUrl, mParams, callBack);
         }
+    }
+
+    /**
+     * 解析一个类上面的class信息
+     */
+    public static Class<?> analysisClazzInfo(Object object) {
+        Type genType = object.getClass().getGenericSuperclass();
+        Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
+        return (Class<?>) params[0];
     }
 }
