@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.shy.lib.http.CacheRequestInterceptor;
+import com.shy.lib.http.CacheResponseInterceptor;
 import com.shy.lib.http.EngineCallback;
 import com.shy.lib.http.HttpUtils;
 import com.shy.lib.http.IHttpEngine;
@@ -31,8 +33,19 @@ import okhttp3.Response;
  * Created by ZhangL on 2020-06-22.
  */
 public class OkHttpEngine implements IHttpEngine {
-    private static OkHttpClient mOkHttpClient = new OkHttpClient();
+    private static OkHttpClient mOkHttpClient;
     private Handler mHandler = new Handler(Looper.getMainLooper());
+
+    public OkHttpEngine(Context context) {
+        mOkHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new CacheRequestInterceptor(context.getApplicationContext()))
+                .addNetworkInterceptor(new CacheResponseInterceptor())
+                .build();
+    }
+
+    public OkHttpEngine() {
+        mOkHttpClient = new OkHttpClient();
+    }
 
     @Override
     public void get(Context context, String url, Map<String, Object> params, final EngineCallback callback) {
@@ -96,13 +109,17 @@ public class OkHttpEngine implements IHttpEngine {
                     }
 
                     @Override
-                    public void onResponse(okhttp3.Call call, Response response) throws IOException {
+                    public void onResponse(okhttp3.Call call, final Response response) throws IOException {
                         // 这个 两个回掉方法都不是在主线程中
                         final String result = response.body().string();
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                callback.onSuccess(result);
+                                if (response.code() == 200) {
+                                    callback.onSuccess(result);
+                                } else {
+                                    callback.onFailure(response.code(), result);
+                                }
                             }
                         });
                     }
