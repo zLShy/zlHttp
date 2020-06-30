@@ -2,6 +2,8 @@ package com.shy.lib.http;
 
 import android.util.Log;
 
+import com.shy.lib.widget.LoadingDialog;
+
 import org.json.JSONObject;
 
 import java.nio.charset.Charset;
@@ -16,9 +18,12 @@ import retrofit2.Response;
 
 public abstract class RealObserver implements Observer<Response<ResponseBody>> {
 
-
     @Override
     public void onSubscribe(Disposable d) {
+
+    }
+
+    public RealObserver() {
 
     }
 
