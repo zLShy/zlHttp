@@ -17,6 +17,6 @@ public class LocalNetWorkUtils {
                 }
             }
         }
-        return true;
+        return false;
     }
 }
