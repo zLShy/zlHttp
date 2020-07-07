@@ -35,6 +35,7 @@ public abstract class RealObserver implements Observer<Response<ResponseBody>> {
             try {
 
                 JSONObject jsonObject = new JSONObject(value.body().string());
+                Log.e("TAG", jsonObject.toString());
                 boolean success = jsonObject.getBoolean("success");
                 if (success) {
                     onSuccess(jsonObject.getString("data"));
