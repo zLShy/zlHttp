@@ -39,7 +39,7 @@ public abstract class RealObserver implements Observer<Response<ResponseBody>> {
                 if (success) {
                     onSuccess(jsonObject.getString("data"));
                 } else {
-                    onFailer(1001, jsonObject.getString("msg"));
+                    onFailer(200, jsonObject.getString("msg"));
                 }
 
             } catch (Exception e) {
