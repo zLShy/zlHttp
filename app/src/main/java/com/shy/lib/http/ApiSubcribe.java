@@ -49,7 +49,7 @@ public class ApiSubcribe {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void GetMethod(String url, Map<String, Object> parems, RealObserver observer) {
-        Subcribe(observer, RetrifitClient.getInstance().initApiService().GetMethod(url, intiMap(parems)));
+        Subcribe(observer, RetrifitClient.getInstance().initApiService().GetMethod(url, parems));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
